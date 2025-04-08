@@ -1,28 +1,8 @@
 import streamlit as st
-import base64
-
-def set_background(image_path):
-    with open(image_path, "rb") as image_file:
-        encoded = base64.b64encode(image_file.read()).decode()
-    st.markdown(
-        f"""
-        <style>
-        .stApp {{
-            background-image: url("data:image/jpg;base64,{encoded}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
 
 def main():
-    set_background("9cc298341615defaecd24a5ac87388e8.jpg")  # imagem de fundo
-
-    st.set_page_config(page_title="GastoDrive 💸🚗", layout="centered")
-    st.title("💸 GastoDrive - Calculadora de Gasolina")
+    st.set_page_config(page_title="GastoDrive", layout="centered")
+    st.title("🚗 GastoDrive - Calculadora de Gastos com Gasolina")
 
     with st.sidebar:
         st.header("⛽ Parâmetros do Veículo")
@@ -31,7 +11,7 @@ def main():
         consumo_misto = st.number_input("Consumo misto (km/l)", min_value=1.0, value=12.0, step=0.1)
         preco_litro = st.number_input("Preço da gasolina (R$)", min_value=0.01, value=5.49, step=0.01)
 
-    st.subheader("🛣️ Adicionar Trechos")
+    st.subheader("📍 Adicionar Trechos")
 
     if "trechos" not in st.session_state:
         st.session_state.trechos = []
@@ -47,13 +27,13 @@ def main():
             st.session_state.trechos.append({
                 "origem": origem,
                 "destino": destino,
-                "distancia": distancia * 2,  # ida e volta
+                "distancia": distancia * 2,
                 "tipo": tipo
             })
             st.success(f"Trecho {origem} → {destino} adicionado com sucesso!")
 
     if st.session_state.trechos:
-        st.subheader("📋 Trechos Adicionados")
+        st.subheader("📦 Trechos Adicionados")
         total_km = 0
         total_custo = 0
 
@@ -77,7 +57,7 @@ def main():
         st.write(f"**Distância total:** {total_km:.2f} km")
         st.write(f"**Custo total estimado:** R$ {total_custo:.2f}")
 
-        if st.button("🧹 Limpar todos os trechos"):
+        if st.button("🗑️ Limpar todos os trechos"):
             st.session_state.trechos = []
             st.success("Todos os trechos foram removidos.")
 
